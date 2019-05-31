@@ -84,7 +84,6 @@ public class SolrApplicationTests {
             document.add(fieldName);
             indexWriter.addDocument(document);
         }
-        indexWriter.unlock(directory);
         indexWriter.close();
     }
 
