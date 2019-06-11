@@ -10,8 +10,11 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -21,6 +24,9 @@ import java.io.IOException;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SolrApplicationTests {
+
+    @Autowired
+    private SolrClient solrClient;
 
     public static IndexWriter getIndexWriter() throws IOException {
         Directory directory = FSDirectory.open(new File("D:/index/indexs/"));
@@ -150,4 +156,14 @@ public class SolrApplicationTests {
         printResult(scoreDocs, indexSearcher);
     }
 
+    @Test
+    public void deleteAll() throws Exception {
+        SolrClient solrClient = new HttpSolrClient.Builder("http://localhost:8081/solr/db").build();
+        solrClient.deleteByQuery("*:*", 8000);
+    }
+
+    @Test
+    public void test() {
+        System.out.println(solrClient);
+    }
 }
